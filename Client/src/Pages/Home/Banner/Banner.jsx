@@ -1,7 +1,7 @@
 const Banner = () => {
   return (
     <div>
-      <div className="hero bg-base-200 min-h-screen">
+      <div className="hero  min-h-screen">
         <div className="hero-content flex-col lg:flex-row">
           <div className="-ml-24 -mt-16 @max-xs:h-1/2">
             <svg
