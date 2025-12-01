@@ -7,6 +7,9 @@ const Home = () => {
       <Helmet>
         <title>Drop | Home</title>
       </Helmet>
+      <div>
+        <p className="text-9xl font-poppins">This is a Home</p>
+      </div>
     </div>
   );
 };
