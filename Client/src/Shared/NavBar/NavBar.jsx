@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { MdOutlineBloodtype } from "react-icons/md";
 
 const NavBar = () => {
   const navOption = (
@@ -20,7 +21,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-sm font-primary">
+    <div className="navbar fixed z-50 bg-base-100 shadow-sm font-primary">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -47,14 +48,16 @@ const NavBar = () => {
             {navOption}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <div>
+          <MdOutlineBloodtype size={50} />
+        </div>
       </div>
-      <div className="navbar-center hidden lg:flex ">
-        {/* Center content can remain empty or be used for other purposes */}
-      </div>
+
       <div className="navbar-end flex items-center space-x-4">
-        <ul className="menu menu-horizontal px-1">{navOption}</ul>
-        <button className="btn btn-dash transition delay-150 duration-300 ease-in-out hover:-translate-y-1  hover:bg-white hover:text-black">
+        <ul className="menu menu-horizontal px-1 hidden lg:flex">
+          {navOption}
+        </ul>
+        <button className="btn btn-dash  transition duration-300 ease-in-out hover:-translate-y-1  hover:bg-black hover:text-white hover:border-b-2 hover:border-b-red-800">
           Log in
         </button>
       </div>
