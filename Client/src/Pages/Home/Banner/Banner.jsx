@@ -5,6 +5,7 @@ const Banner = () => {
         <div className="hero-content flex-col lg:flex-row">
           <div className="-ml-24 -mt-16 @max-xs:h-1/2">
             <svg
+              className="drop-shadow-red-700"
               xmlns="http://www.w3.org/2000/svg"
               width="746"
               height="768"
@@ -68,7 +69,7 @@ const Banner = () => {
           </div>
           <div>
             <h1 className="text-5xl font-bold">Save Life Donate Blood </h1>
-            <p className="py-6">
+            <p className="py-6 font-secondary">
               "Your single act of kindness can give someone another chance to
               live, recover, and reunite with their loved ones. Every drop
               counts, and your donation can be the hope someone is desperately

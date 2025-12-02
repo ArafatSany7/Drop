@@ -2,7 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import Banner from "../Banner/Banner";
 import Motto from "../Motto/Motto";
-import Collaborators from "../../Collaborators/Collaborators";
+import Collaborators from "../Collaborators/Collaborators";
+import HowToGetBlood from "../HowToGetBlood/HowToGetBlood";
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Banner></Banner>
       <Motto></Motto>
       <Collaborators></Collaborators>
+      <HowToGetBlood></HowToGetBlood>
     </div>
   );
 };
