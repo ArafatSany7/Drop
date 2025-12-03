@@ -57,11 +57,11 @@ const HowToGetBlood = () => {
             <path
               d="M0 50 Q 40 10 80 50 T 160 50 T 240 50 Q 260 20 280 50 T 360 50 T 440 50 Q 460 10 500 50"
               fill="transparent"
-              stroke="red"
+              stroke="white"
               strokeWidth="4"
             />
           </svg>
-          <Heart className="w-12 h-12 text-red-600" />
+          <Heart className="w-12 h-12 text-white" />
         </div>
       </section>
     </div>

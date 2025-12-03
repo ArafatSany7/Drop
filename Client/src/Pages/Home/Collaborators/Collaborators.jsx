@@ -13,7 +13,7 @@ const Collaborators = () => {
                place-items-center"
       >
         <div
-          className="w-85 h-60 opacity-60 bg-white rounded-xl shadow-lg
+          className="w-85 h-60 border opacity-60  rounded-xl shadow-lg
                  transition duration-300 ease-in-out
                  hover:scale-105 hover:shadow-red-700
                  flex items-center justify-center"
@@ -22,7 +22,7 @@ const Collaborators = () => {
         </div>
 
         <div
-          className="w-100 h-60 bg-white rounded-xl shadow-lg
+          className="w-100 h-60 border rounded-xl shadow-lg
                  transition duration-300 ease-in-out
                  hover:scale-105 hover:shadow-red-700
                  flex items-center justify-center"
@@ -31,7 +31,7 @@ const Collaborators = () => {
         </div>
 
         <div
-          className="w-85 h-60 opacity-60 bg-white rounded-xl shadow-lg
+          className="w-85 h-60 opacity-60 border rounded-xl shadow-lg
                  transition duration-300 ease-in-out
                  hover:scale-105 hover:shadow-red-700
                  flex items-center justify-center"
