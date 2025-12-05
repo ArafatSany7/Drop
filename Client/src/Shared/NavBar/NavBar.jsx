@@ -9,13 +9,13 @@ const NavBar = () => {
         <Link to={"/"}>Home</Link>
       </li>
       <li>
-        <Link>About Us</Link>
+        <Link to="/registration">Register Now</Link>
       </li>
       <li>
-        <Link>Find Blood</Link>
+        <Link to="/find-blood">Find Blood</Link>
       </li>
       <li>
-        <Link>Register Now</Link>
+        <Link to="/about">About Us</Link>
       </li>
     </>
   );
@@ -54,12 +54,13 @@ const NavBar = () => {
       </div>
 
       <div className="navbar-end flex items-center space-x-4">
-        <ul className="menu menu-horizontal px-1 hidden lg:flex">
-          {navOption}
-        </ul>
-        <button className="btn btn-dash  transition duration-300 ease-in-out hover:-translate-y-1  hover:bg-black hover:text-white hover:border-b-2 hover:border-b-red-800">
+        <ul className="menu menu-horizontal px-1">{navOption}</ul>
+        <Link
+          to="/registration"
+          className="btn btn-dash transition duration-300 ease-in-out hover:-translate-y-1  hover:bg-black hover:text-white hover:border-b-2 hover:border-b-red-800"
+        >
           Log in
-        </button>
+        </Link>
       </div>
     </div>
   );
