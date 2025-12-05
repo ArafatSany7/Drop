@@ -1,57 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, MapPin, Phone, Search, ShieldCheck } from "lucide-react";
-
-const mockDonors = [
-  {
-    name: "Anika Rahman",
-    group: "O+",
-    location: "Dhaka",
-    availability: "Available today",
-    phone: "+880 1711-234567",
-    donations: 6,
-  },
-  {
-    name: "Shafin Islam",
-    group: "A-",
-    location: "Chittagong",
-    availability: "Within 24 hours",
-    phone: "+880 1911-987654",
-    donations: 3,
-  },
-  {
-    name: "Priya Sen",
-    group: "B+",
-    location: "Rajshahi",
-    availability: "Available today",
-    phone: "+880 1815-332211",
-    donations: 4,
-  },
-  {
-    name: "Mahir Khan",
-    group: "AB+",
-    location: "Sylhet",
-    availability: "Within 48 hours",
-    phone: "+880 1712-220011",
-    donations: 5,
-  },
-  {
-    name: "Nabila Chowdhury",
-    group: "O-",
-    location: "Khulna",
-    availability: "Emergency only",
-    phone: "+880 1910-776655",
-    donations: 2,
-  },
-  {
-    name: "Imran Hossain",
-    group: "A+",
-    location: "Barishal",
-    availability: "Available today",
-    phone: "+880 1301-554433",
-    donations: 7,
-  },
-];
+import { getDonors } from "../../services/localDonorService";
 
 const emergencies = [
   {
@@ -78,18 +28,33 @@ const emergencies = [
 ];
 
 const FindBlood = () => {
+  const [donors, setDonors] = useState([]);
   const [bloodGroup, setBloodGroup] = useState("all");
   const [location, setLocation] = useState("");
 
+  useEffect(() => {
+    let cancelled = false;
+    const loadDonors = async () => {
+      const data = await getDonors();
+      if (!cancelled) {
+        setDonors(Array.isArray(data) ? data : []);
+      }
+    };
+    loadDonors();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const filteredDonors = useMemo(() => {
-    return mockDonors.filter((donor) => {
+    return donors.filter((donor) => {
       const groupMatch = bloodGroup === "all" || donor.group === bloodGroup;
       const locationMatch =
         !location ||
         donor.location.toLowerCase().includes(location.toLowerCase());
       return groupMatch && locationMatch;
     });
-  }, [bloodGroup, location]);
+  }, [bloodGroup, location, donors]);
 
   return (
     <section className="min-h-screen bg-base-100 pt-28 pb-16 px-4 lg:px-12">

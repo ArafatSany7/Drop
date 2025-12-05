@@ -1,7 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { addDonor, seedDonors } from "../../../services/localDonorService";
 
 const DonorRegistration = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [status, setStatus] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    address: "",
+    age: "",
+    bloodGroup: "",
+    district: "",
+    state: "",
+    pinCode: "",
+    lastDonation: "",
+  });
+
+  useEffect(() => {
+    seedDonors();
+  }, []);
+
+  const handleChange = (field) => (event) => {
+    setFormData((prev) => ({ ...prev, [field]: event.target.value }));
+  };
 
   const inputClasses =
     "w-full rounded-2xl border border-white/20 bg-neutral-900/60 px-4 py-3 text-sm text-white font-secondary transition focus:border-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-400/30 placeholder:text-white/40";
@@ -12,8 +36,80 @@ const DonorRegistration = () => {
       : "bg-transparent text-white border-white/40"
   }`;
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    setStatus(null);
+
+    if (!agreedToTerms) {
+      setStatus({ type: "error", message: "Please agree to the terms first." });
+      return;
+    }
+
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "phone",
+      "email",
+      "address",
+      "age",
+      "bloodGroup",
+      "district",
+      "state",
+      "pinCode",
+    ];
+
+    const missing = requiredFields.filter((key) => !formData[key]);
+    if (missing.length) {
+      setStatus({ type: "error", message: "Please fill all required fields." });
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      await addDonor({
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        group: formData.bloodGroup,
+        location: formData.district,
+        availability: "Available today",
+        phone: formData.phone,
+        donations: 0,
+        meta: {
+          email: formData.email,
+          address: formData.address,
+          age: formData.age,
+          state: formData.state,
+          pinCode: formData.pinCode,
+          lastDonation: formData.lastDonation,
+        },
+      });
+
+      setStatus({
+        type: "success",
+        message: "Saved locally. Data is stored in your browser.",
+      });
+      setFormData({
+        firstName: "",
+        lastName: "",
+        phone: "",
+        email: "",
+        address: "",
+        age: "",
+        bloodGroup: "",
+        district: "",
+        state: "",
+        pinCode: "",
+        lastDonation: "",
+      });
+      setAgreedToTerms(false);
+    } catch (error) {
+      console.error(error);
+      setStatus({
+        type: "error",
+        message: "Could not save. Please try again.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -49,23 +145,43 @@ const DonorRegistration = () => {
         <div className="grid gap-5 md:grid-cols-2">
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">First Name</label>
-            <input type="text" placeholder="First" className={inputClasses} />
+            <input
+              type="text"
+              placeholder="First"
+              value={formData.firstName}
+              onChange={handleChange("firstName")}
+              className={inputClasses}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">Last Name</label>
-            <input type="text" placeholder="Last" className={inputClasses} />
+            <input
+              type="text"
+              placeholder="Last"
+              value={formData.lastName}
+              onChange={handleChange("lastName")}
+              className={inputClasses}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">
               Phone Number
             </label>
-            <input type="tel" placeholder="Number" className={inputClasses} />
+            <input
+              type="tel"
+              placeholder="Number"
+              value={formData.phone}
+              onChange={handleChange("phone")}
+              className={inputClasses}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">Email</label>
             <input
               type="email"
               placeholder="Mail ID"
+              value={formData.email}
+              onChange={handleChange("email")}
               className={inputClasses}
             />
           </div>
@@ -74,18 +190,30 @@ const DonorRegistration = () => {
             <textarea
               rows={3}
               placeholder="Type here"
+              value={formData.address}
+              onChange={handleChange("address")}
               className={`${inputClasses} min-h-[120px] resize-none`}
             ></textarea>
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">Age</label>
-            <input type="number" placeholder="Age" className={inputClasses} />
+            <input
+              type="number"
+              placeholder="Age"
+              value={formData.age}
+              onChange={handleChange("age")}
+              className={inputClasses}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">
               Blood Group
             </label>
-            <select className={inputClasses} defaultValue="">
+            <select
+              className={inputClasses}
+              value={formData.bloodGroup}
+              onChange={handleChange("bloodGroup")}
+            >
               <option value="" disabled>
                 Select
               </option>
@@ -104,18 +232,28 @@ const DonorRegistration = () => {
             <input
               type="text"
               placeholder="District"
+              value={formData.district}
+              onChange={handleChange("district")}
               className={inputClasses}
             />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">State</label>
-            <input type="text" placeholder="State" className={inputClasses} />
+            <input
+              type="text"
+              placeholder="State"
+              value={formData.state}
+              onChange={handleChange("state")}
+              className={inputClasses}
+            />
           </div>
           <div className="space-y-2">
             <label className="text-sm font-medium text-white">Pin Code</label>
             <input
               type="text"
               placeholder="Pin Code"
+              value={formData.pinCode}
+              onChange={handleChange("pinCode")}
               className={inputClasses}
             />
           </div>
@@ -123,7 +261,13 @@ const DonorRegistration = () => {
             <label className="text-sm font-medium text-white">
               Last Donation (Month)
             </label>
-            <input type="text" placeholder="Month" className={inputClasses} />
+            <input
+              type="text"
+              placeholder="Month"
+              value={formData.lastDonation}
+              onChange={handleChange("lastDonation")}
+              className={inputClasses}
+            />
           </div>
         </div>
 
@@ -141,10 +285,24 @@ const DonorRegistration = () => {
             </span>
           </label>
 
-          <button type="submit" className={submitButtonClasses}>
-            Submit
+          <button
+            type="submit"
+            className={submitButtonClasses}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Submit"}
           </button>
         </div>
+
+        {status && (
+          <p
+            className={`text-sm font-medium ${
+              status.type === "success" ? "text-green-400" : "text-rose-300"
+            }`}
+          >
+            {status.message}
+          </p>
+        )}
       </form>
     </section>
   );
