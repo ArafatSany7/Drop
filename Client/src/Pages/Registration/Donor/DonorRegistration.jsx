@@ -117,11 +117,7 @@ const DonorRegistration = () => {
       <header className="group relative overflow-hidden rounded-[28px] bg-gradient-to-br from-red-900 via-black to-black text-white p-8 shadow-2xl hover:shadow-red-900/30 bordertransition-all duration-500">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-red-900 via-black to-black opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-        ></div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-16 bg-rose-600/40 blur-3xl opacity-0 scale-75 transition-all duration-500 group-hover:opacity-70 group-hover:scale-110"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-red-900 via-black to-black opacity-90 transition-opacity duration-500 group-hover:opacity-100 after:content-[''] after:pointer-events-none after:absolute after:-inset-16 after:bg-rose-600/40 after:blur-3xl after:opacity-0 after:scale-75 after:transition-all after:duration-500 group-hover:after:opacity-70 group-hover:after:scale-110"
         ></div>
         <div className="relative">
           <p className="text-sm uppercase tracking-[0.3em] text-white/70">
@@ -138,6 +134,10 @@ const DonorRegistration = () => {
         </div>
       </header>
 
+      <form
+        onSubmit={handleSubmit}
+        className=" backdrop-blur rounded-[32px] border border-white/10 p-8 shadow-2xl space-y-8 text-white"
+      ></form>
       <form
         onSubmit={handleSubmit}
         className=" backdrop-blur rounded-[32px] border border-white/10 p-8 shadow-2xl space-y-8 text-white"

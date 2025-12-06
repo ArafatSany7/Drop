@@ -67,11 +67,7 @@ const FindBlood = () => {
           <div className="group relative overflow-hidden bg-gradient-to-br from-red-900 via-black to-black text-white p-10 shadow-2xl hover:shadow-red-900/30 transition-all duration-500 rounded-3xl">
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-red-900 via-black to-black opacity-90 transition-opacity duration-500 group-hover:opacity-100"
-            ></div>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -inset-16 bg-rose-600/40 blur-3xl opacity-0 scale-75 transition-all duration-500 group-hover:opacity-70 group-hover:scale-110"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-br from-red-900 via-black to-black opacity-90 transition-opacity duration-500 group-hover:opacity-100 after:content-[''] after:pointer-events-none after:absolute after:-inset-16 after:bg-rose-600/40 after:blur-3xl after:opacity-0 after:scale-75 after:transition-all after:duration-500 group-hover:after:opacity-70 group-hover:after:scale-110"
             ></div>
             <div className="relative flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-3">
