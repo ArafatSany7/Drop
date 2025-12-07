@@ -1,27 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdOutlineBloodtype } from "react-icons/md";
 
 const NavBar = () => {
   const navOption = (
     <>
       <li>
-        <Link to={"/"}>Home</Link>
+        <NavLink to={"/"}>Home</NavLink>
       </li>
       <li>
-        <Link to="/registration">Register Now</Link>
+        <NavLink to="/registration">Register Now</NavLink>
       </li>
       <li>
-        <Link to="/find-blood">Find Blood</Link>
+        <NavLink to="/find-blood">Find Blood</NavLink>
       </li>
       <li>
-        <Link to="/about">About Us</Link>
+        <NavLink to="/about">About Us</NavLink>
       </li>
     </>
   );
 
   return (
-    <div className="navbar fixed z-50 bg-base-100 shadow-sm font-primary px-4 lg:px-10">
+    <div className="navbar fixed z-50  backdrop-blur-md border-b border-white/10 shadow-sm font-primary px-4 lg:px-10 text-white">
       <div className="navbar-start gap-2">
         <div className="dropdown">
           <button
@@ -47,14 +47,22 @@ const NavBar = () => {
           </button>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow lg:hidden"
+            className="menu menu-sm dropdown-content bg-neutral-900/95 text-white backdrop-blur rounded-box z-10 mt-3 w-56 p-3 shadow-lg lg:hidden"
           >
             {navOption}
+            <li className="mt-2">
+              <Link
+                to="/registration"
+                className="btn btn-dash w-full bg-rose-700 text-white border-rose-700 hover:bg-white hover:text-black"
+              >
+                Log in
+              </Link>
+            </li>
           </ul>
         </div>
         <Link to="/" className="flex items-center gap-2 font-semibold">
-          <MdOutlineBloodtype size={38} />
-          <span className="hidden sm:inline">Drop</span>
+          <MdOutlineBloodtype size={38} className="text-rose-700" />
+          <span className="hidden sm:inline text-lg tracking-tight">Drop</span>
         </Link>
       </div>
 
@@ -64,7 +72,7 @@ const NavBar = () => {
         </ul>
         <Link
           to="/registration"
-          className="btn btn-dash transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-black hover:text-white hover:border-b-2 hover:border-b-red-800"
+          className="btn btn-dash transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-white hover:text-black hover:border-b-2 hover:border-b-red-800 bg-rose-700 text-white border-rose-700"
         >
           Log in
         </Link>
