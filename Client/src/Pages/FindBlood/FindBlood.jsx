@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, MapPin, Phone, Search, ShieldCheck } from "lucide-react";
 import { getDonors } from "../../services/localDonorService";
@@ -32,30 +32,35 @@ const FindBlood = () => {
   const [donors, setDonors] = useState([]);
   const [bloodGroup, setBloodGroup] = useState("all");
   const [location, setLocation] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
     const loadDonors = async () => {
-      const data = await getDonors();
-      if (!cancelled) {
-        setDonors(Array.isArray(data) ? data : []);
+      setIsLoading(true);
+      setError(null);
+      try {
+        const data = await getDonors({ group: bloodGroup, location });
+        if (!cancelled) {
+          setDonors(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err?.message || "Unable to load donors");
+          setDonors([]);
+        }
+      } finally {
+        if (!cancelled) setIsLoading(false);
       }
     };
+
     loadDonors();
+
     return () => {
       cancelled = true;
     };
-  }, []);
-
-  const filteredDonors = useMemo(() => {
-    return donors.filter((donor) => {
-      const groupMatch = bloodGroup === "all" || donor.group === bloodGroup;
-      const locationMatch =
-        !location ||
-        donor.location.toLowerCase().includes(location.toLowerCase());
-      return groupMatch && locationMatch;
-    });
-  }, [bloodGroup, location, donors]);
+  }, [bloodGroup, location]);
 
   return (
     <div>
@@ -173,39 +178,58 @@ const FindBlood = () => {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                {filteredDonors.map((donor) => (
-                  <article
-                    key={`${donor.name}-${donor.group}`}
-                    className="rounded-2xl border border-rose-100  p-5 shadow-md transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <p className="text-sm text-red-800">{donor.group}</p>
-                        <h3 className="text-lg  font-semibold">{donor.name}</h3>
-                        <p className="flex items-center gap-2 text-sm opacity-60 mt-1">
-                          <MapPin size={16} /> {donor.location}
-                        </p>
+                {isLoading && (
+                  <div className="col-span-full rounded-2xl border border-dashed border-rose-200 bg-rose-50 px-6 py-10 text-center text-gray-700">
+                    <p className="font-semibold text-lg">Loading donors...</p>
+                  </div>
+                )}
+
+                {error && !isLoading && (
+                  <div className="col-span-full rounded-2xl border border-dashed border-rose-200 bg-rose-50 px-6 py-10 text-center text-gray-700">
+                    <p className="font-semibold text-lg">{error}</p>
+                    <p className="mt-2 text-sm text-gray-600">
+                      Please check your connection or try again.
+                    </p>
+                  </div>
+                )}
+
+                {!isLoading &&
+                  !error &&
+                  donors.map((donor) => (
+                    <article
+                      key={donor.id || `${donor.name}-${donor.group}`}
+                      className="rounded-2xl border border-rose-100  p-5 shadow-md transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-sm text-red-800">{donor.group}</p>
+                          <h3 className="text-lg  font-semibold">
+                            {donor.name}
+                          </h3>
+                          <p className="flex items-center gap-2 text-sm opacity-60 mt-1">
+                            <MapPin size={16} /> {donor.location}
+                          </p>
+                        </div>
+                        <span className="rounded-full border-2 rounded-2xl px-3 py-1 text-xs font-semibold text-rose-700 opacity-70">
+                          {donor.availability}
+                        </span>
                       </div>
-                      <span className="rounded-full border-2 rounded-2xl px-3 py-1 text-xs font-semibold text-rose-700 opacity-70">
-                        {donor.availability}
-                      </span>
-                    </div>
 
-                    <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-700">
-                      <span className="inline-flex items-center gap-1 rounded-full border-2 rounded-2xl px-3 py-1">
-                        <Heart size={14} /> {donor.donations} donations
-                      </span>
-                      <a
-                        href={`tel:${donor.phone}`}
-                        className="inline-flex items-center gap-2 rounded-full bg-black px-3 py-1 text-white hover:bg-rose-700 duration-500"
-                      >
-                        <Phone size={14} /> Call donor
-                      </a>
-                    </div>
-                  </article>
-                ))}
+                      <div className="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-700">
+                        <span className="inline-flex items-center gap-1 rounded-full border-2 rounded-2xl px-3 py-1">
+                          <Heart size={14} /> {donor.donations} donations
+                        </span>
+                        <a
+                          href={`tel:${donor.phone}`}
+                          className="inline-flex items-center gap-2 rounded-full bg-black px-3 py-1 text-white hover:bg-rose-700 duration-500"
+                        >
+                          <Phone size={14} /> Call donor
+                        </a>
+                      </div>
+                    </article>
+                  ))}
 
-                {filteredDonors.length === 0 && (
+                {!isLoading && !error && donors.length === 0 && (
                   <div className="col-span-full rounded-2xl border border-dashed border-rose-200 bg-rose-50 px-6 py-10 text-center text-gray-700">
                     <p className="font-semibold text-lg">
                       No donors match the current filters.

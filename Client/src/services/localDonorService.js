@@ -1,61 +1,56 @@
-const STORAGE_KEY = "local_donors";
+const fallbackBase =
+  typeof window !== "undefined" && import.meta.env?.DEV
+    ? "http://localhost:5000"
+    : typeof window !== "undefined"
+    ? window.location.origin
+    : "http://localhost:5000";
 
-const parseStored = () => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch (error) {
-    console.error("Failed to parse stored donors", error);
-    return null;
+const API_BASE = (import.meta.env.VITE_API_URL || fallbackBase).replace(
+  /\/$/,
+  ""
+);
+const DONORS_ENDPOINT = `${API_BASE}/api/donors`;
+
+const handleResponse = async (response) => {
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    const message = data?.message || "Request failed";
+    throw new Error(message);
   }
+  return data;
 };
 
-const persist = (donors) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(donors));
-  } catch (error) {
-    console.error("Failed to persist donors", error);
-  }
-};
+export const getDonors = async (filters = {}) => {
+  const url = new URL(DONORS_ENDPOINT);
 
-export const seedDonors = async () => {
-  const stored = parseStored();
-  if (stored && Array.isArray(stored) && stored.length) {
-    return stored;
+  if (filters.group && filters.group !== "all") {
+    url.searchParams.set("group", filters.group);
   }
 
-  try {
-    const response = await fetch("/data/mockDonors.json");
-    if (!response.ok) throw new Error("Failed to fetch seed donors");
-    const data = await response.json();
-    const fallback = Array.isArray(data) ? data : [];
-    persist(fallback);
-    return fallback;
-  } catch (error) {
-    console.error(error);
-    const fallback = [];
-    persist(fallback);
-    return fallback;
+  if (filters.location) {
+    url.searchParams.set("location", filters.location);
   }
-};
 
-export const getDonors = async () => {
-  const stored = parseStored();
-  if (stored && Array.isArray(stored)) {
-    return stored;
-  }
-  return seedDonors();
+  const response = await fetch(url.toString());
+  return handleResponse(response);
 };
 
 export const addDonor = async (donor) => {
-  const donors = (await getDonors()) ?? [];
-  const entry = {
-    id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-    availability: "Available today",
-    donations: 0,
-    ...donor,
-  };
-  const updated = [entry, ...donors];
-  persist(updated);
-  return entry;
+  const response = await fetch(DONORS_ENDPOINT, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(donor),
+  });
+
+  return handleResponse(response);
+};
+
+export const seedDonors = async () => {
+  const response = await fetch(`${DONORS_ENDPOINT}/seed`, {
+    method: "POST",
+  });
+
+  return handleResponse(response);
 };

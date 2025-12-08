@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { addDonor, seedDonors } from "../../../services/localDonorService";
+import React, { useState } from "react";
+import { addDonor } from "../../../services/localDonorService";
 
 const DonorRegistration = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
@@ -18,10 +18,6 @@ const DonorRegistration = () => {
     pinCode: "",
     lastDonation: "",
   });
-
-  useEffect(() => {
-    seedDonors();
-  }, []);
 
   const handleChange = (field) => (event) => {
     setFormData((prev) => ({ ...prev, [field]: event.target.value }));
@@ -73,19 +69,11 @@ const DonorRegistration = () => {
         availability: "Available today",
         phone: formData.phone,
         donations: 0,
-        meta: {
-          email: formData.email,
-          address: formData.address,
-          age: formData.age,
-          state: formData.state,
-          pinCode: formData.pinCode,
-          lastDonation: formData.lastDonation,
-        },
       });
 
       setStatus({
         type: "success",
-        message: "Saved locally. Data is stored in your browser.",
+        message: "Donor saved to the server successfully.",
       });
       setFormData({
         firstName: "",
@@ -105,7 +93,7 @@ const DonorRegistration = () => {
       console.error(error);
       setStatus({
         type: "error",
-        message: "Could not save. Please try again.",
+        message: error?.message || "Could not save. Please try again.",
       });
     } finally {
       setIsSaving(false);
