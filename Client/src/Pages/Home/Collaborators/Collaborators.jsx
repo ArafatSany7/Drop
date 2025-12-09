@@ -1,8 +1,8 @@
 import c1 from "../../../../assets/Collaborators/image_2025-12-07_23-06-05.jpg";
-import c2 from "../../../../assets/Collaborators/503357216_17907220254168435_6520471445662570210_n.jpg";
-import c3 from "../../../../assets/Collaborators/504089633_17907220263168435_3195396035158842671_n.jpg";
-import c4 from "../../../../assets/Collaborators/573592431_17869166190466737_2379739817289963225_n.jpg";
-import c5 from "../../../../assets/Collaborators/575938624_17869166205466737_4957473734069459122_n.jpg";
+import c2 from "../../../../assets/Collaborators/bangladesh-bank.jpg";
+import c3 from "../../../../assets/Collaborators/Dutch-Bangla-Bank.jpg";
+import c4 from "../../../../assets/Collaborators//image_2025-12-07_23-06-05.jpg";
+import c5 from "../../../../assets/Collaborators/istockphoto-458679355-612x612.jpg";
 
 const Collaborators = () => {
   return (
