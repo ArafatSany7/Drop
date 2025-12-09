@@ -19,11 +19,11 @@ const Collaborators = () => {
             ></div>
             <div
               style={{ backgroundImage: `url(${c2})` }}
-              className="card w-full"
+              className="card w-fit"
             ></div>
             <div
               style={{ backgroundImage: `url(${c3})` }}
-              className="card w-full"
+              className="card w-fit"
             ></div>
             <div
               style={{ backgroundImage: `url(${c4})` }}

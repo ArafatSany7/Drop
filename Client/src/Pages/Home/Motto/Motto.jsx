@@ -3,7 +3,7 @@ import React from "react";
 const Motto = () => {
   return (
     <section className="px-4 sm:px-6 lg:px-12 py-12">
-      <div className="max-w-5xl mx-auto rounded-3xl overflow-hidden  text-white shadow-2xl">
+      <div className="max-w-5xl mx-auto rounded-3xl overflow-hidden transition duration-300 ease-in-out hover:scale-105 hover:shadow-red-700 text-white shadow-2xl">
         <div className="relative p-10 sm:p-12">
           <div
             className="absolute -inset-20  blur-3xl opacity-60 pointer-events-none"
