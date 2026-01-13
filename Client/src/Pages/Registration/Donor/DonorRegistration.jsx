@@ -128,11 +128,11 @@ const DonorRegistration = () => {
 
       <form
         onSubmit={handleSubmit}
-        className=" backdrop-blur rounded-[32px] border border-white/10 p-8 shadow-2xl space-y-8 text-white"
+        className=" backdrop-blur rounded-[32px] border p-8 shadow-2xl space-y-8 "
       >
         <div className="grid gap-5 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">First Name</label>
+            <label className="text-sm font-medium">First Name</label>
             <input
               type="text"
               placeholder="First"
@@ -142,7 +142,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Last Name</label>
+            <label className="text-sm font-medium ">Last Name</label>
             <input
               type="text"
               placeholder="Last"
@@ -152,9 +152,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">
-              Phone Number
-            </label>
+            <label className="text-sm font-medium">Phone Number</label>
             <input
               type="tel"
               placeholder="Number"
@@ -164,7 +162,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Email</label>
+            <label className="text-sm font-medium ">Email</label>
             <input
               type="email"
               placeholder="Mail ID"
@@ -174,7 +172,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium text-white">Address</label>
+            <label className="text-sm font-medium ">Address</label>
             <textarea
               rows={3}
               placeholder="Type here"
@@ -184,7 +182,7 @@ const DonorRegistration = () => {
             ></textarea>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Age</label>
+            <label className="text-sm font-medium ">Age</label>
             <input
               type="number"
               placeholder="Age"
@@ -194,9 +192,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">
-              Blood Group
-            </label>
+            <label className="text-sm font-medium ">Blood Group</label>
             <select
               className={inputClasses}
               value={formData.bloodGroup}
@@ -216,7 +212,7 @@ const DonorRegistration = () => {
             </select>
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">District</label>
+            <label className="text-sm font-medium ">District</label>
             <input
               type="text"
               placeholder="District"
@@ -226,7 +222,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">State</label>
+            <label className="text-sm font-medium ">State</label>
             <input
               type="text"
               placeholder="State"
@@ -236,7 +232,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">Pin Code</label>
+            <label className="text-sm font-medium ">Pin Code</label>
             <input
               type="text"
               placeholder="Pin Code"
@@ -246,7 +242,7 @@ const DonorRegistration = () => {
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium text-white">
+            <label className="text-sm font-medium ">
               Last Donation (Month)
             </label>
             <input

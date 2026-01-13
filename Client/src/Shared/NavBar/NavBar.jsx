@@ -21,7 +21,7 @@ const NavBar = () => {
   );
 
   return (
-    <div className="navbar fixed z-50  backdrop-blur-md border-b border-white/10 shadow-sm font-primary px-4 lg:px-10 text-white">
+    <div className="navbar fixed z-50  backdrop-blur-md border-b border-white/10 shadow-sm font-primary px-4 lg:px-10">
       <div className="navbar-start gap-2">
         <div className="dropdown">
           <button
@@ -47,13 +47,13 @@ const NavBar = () => {
           </button>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-neutral-900/95 text-white backdrop-blur rounded-box z-10 mt-3 w-56 p-3 shadow-lg lg:hidden"
+            className="menu menu-sm dropdown-content bg-neutral-900/95 backdrop-blur rounded-box z-10 mt-3 w-56 p-3 shadow-lg lg:hidden"
           >
             {navOption}
             <li className="mt-2">
               <Link
                 to="/registration"
-                className="btn btn-dash w-full bg-rose-700 text-white border-rose-700 hover:bg-white hover:text-black"
+                className="btn btn-dash w-full bg-rose-700  border-rose-700 hover:bg-white hover:text-black"
               >
                 Log in
               </Link>
@@ -72,7 +72,7 @@ const NavBar = () => {
         </ul>
         <Link
           to="/registration"
-          className="btn btn-dash transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-white hover:text-black hover:border-b-2 hover:border-b-red-800 bg-rose-700 text-white border-rose-700"
+          className="btn btn-dash transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-white hover:text-black hover:border-b-2 hover:border-b-red-800 bg-rose-700  border-rose-700"
         >
           Log in
         </Link>
