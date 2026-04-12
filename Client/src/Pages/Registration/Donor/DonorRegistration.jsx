@@ -264,8 +264,8 @@ const DonorRegistration = () => {
               onChange={(event) => setAgreedToTerms(event.target.checked)}
             />
             <span>
-              I agree to the terms and conditions. Lorem ipsum is simply dummy
-              text of the printing and typesetting industry.
+              I confirm my details are correct and I consent to being contacted
+              for verified blood donation requests.
             </span>
           </label>
 

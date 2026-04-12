@@ -39,22 +39,29 @@ const Footer = () => {
               {
                 icon: <FaFacebook size={18} />,
                 label: "Facebook",
+                href: "https://facebook.com",
               },
               {
                 icon: <FaInstagram size={18} />,
                 label: "Instagram",
+                href: "https://instagram.com",
               },
               {
                 icon: <FaLinkedin size={18} />,
                 label: "LinkedIn",
+                href: "https://linkedin.com",
               },
               {
                 icon: <FaYoutube size={18} />,
                 label: "YouTube",
+                href: "https://youtube.com",
               },
             ].map((item) => (
               <a
                 key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer"
                 className="p-2 rounded-full bg-white/10 border border-white/10 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-rose-500/20 transition"
                 aria-label={item.label}
               >

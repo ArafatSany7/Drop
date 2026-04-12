@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Banner = () => {
   return (
     <div>
@@ -26,9 +28,9 @@ const Banner = () => {
                   width="1433.96"
                   height="1021"
                   filterUnits="userSpaceOnUse"
-                  color-interpolation-filters="sRGB"
+                  colorInterpolationFilters="sRGB"
                 >
-                  <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
                   <feColorMatrix
                     in="SourceAlpha"
                     type="matrix"
@@ -61,8 +63,8 @@ const Banner = () => {
                   y2="874.999"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop offset="0.221679" stop-color="#B32346" />
-                  <stop offset="0.66922" stop-color="#6A0B37" />
+                  <stop offset="0.221679" stopColor="#B32346" />
+                  <stop offset="0.66922" stopColor="#6A0B37" />
                 </linearGradient>
               </defs>
             </svg>
@@ -78,9 +80,12 @@ const Banner = () => {
               waiting for. Be a hero today—give blood and make a difference that
               truly matters."
             </p>
-            <button className="btn transition duration-300 ease-in-out hover:-translate-y-1 bg-black text-white border-0 hover:border-b-2 hover:border-b-red-800">
+            <Link
+              to="/find-blood"
+              className="btn transition duration-300 ease-in-out hover:-translate-y-1 bg-black text-white border-0 hover:border-b-2 hover:border-b-red-800"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </div>

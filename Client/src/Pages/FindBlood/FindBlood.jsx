@@ -32,6 +32,20 @@ const FindBlood = () => {
   const [donors, setDonors] = useState([]);
   const [bloodGroup, setBloodGroup] = useState("all");
   const [location, setLocation] = useState("");
+  const [searchFilters, setSearchFilters] = useState({
+    group: "all",
+    location: "",
+  });
+  const [isRequestModalOpen, setIsRequestModalOpen] = useState(false);
+  const [requestStatus, setRequestStatus] = useState(null);
+  const [requestForm, setRequestForm] = useState({
+    patientName: "",
+    bloodGroup: "",
+    location: "",
+    contactPhone: "",
+    hospital: "",
+    notes: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -41,7 +55,7 @@ const FindBlood = () => {
       setIsLoading(true);
       setError(null);
       try {
-        const data = await getDonors({ group: bloodGroup, location });
+        const data = await getDonors(searchFilters);
         if (!cancelled) {
           setDonors(Array.isArray(data) ? data : []);
         }
@@ -60,7 +74,57 @@ const FindBlood = () => {
     return () => {
       cancelled = true;
     };
-  }, [bloodGroup, location]);
+  }, [searchFilters]);
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    setSearchFilters({
+      group: bloodGroup,
+      location: location.trim(),
+    });
+  };
+
+  const handleResetFilters = () => {
+    setBloodGroup("all");
+    setLocation("");
+    setSearchFilters({ group: "all", location: "" });
+  };
+
+  const handleRequestFieldChange = (field) => (event) => {
+    setRequestForm((prev) => ({ ...prev, [field]: event.target.value }));
+  };
+
+  const handleRequestSubmit = (event) => {
+    event.preventDefault();
+    const required = [
+      requestForm.patientName,
+      requestForm.bloodGroup,
+      requestForm.location,
+      requestForm.contactPhone,
+    ];
+
+    if (required.some((value) => !value.trim())) {
+      setRequestStatus({
+        type: "error",
+        message: "Please fill all required fields.",
+      });
+      return;
+    }
+
+    setRequestStatus({
+      type: "success",
+      message:
+        "Request submitted. Our team will contact matching donors soon.",
+    });
+    setRequestForm({
+      patientName: "",
+      bloodGroup: "",
+      location: "",
+      contactPhone: "",
+      hospital: "",
+      notes: "",
+    });
+  };
 
   return (
     <div>
@@ -128,7 +192,10 @@ const FindBlood = () => {
 
           <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
             <div className="space-y-6">
-              <div className="grid md:grid-cols-3 gap-4  border border-rose-100 rounded-2xl p-5 shadow-lg">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="grid md:grid-cols-3 gap-4  border border-rose-100 rounded-2xl p-5 shadow-lg"
+              >
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">
                     Blood Group
@@ -170,12 +237,22 @@ const FindBlood = () => {
                   <label className="text-sm font-medium text-gray-700">
                     Search Area
                   </label>
-                  <button className="btn w-full bg-black text-white hover:bg-rose-700">
+                  <button
+                    type="submit"
+                    className="btn w-full bg-black text-white hover:bg-rose-700"
+                  >
                     <Search size={16} />
                     Search donors
                   </button>
+                  <button
+                    type="button"
+                    onClick={handleResetFilters}
+                    className="btn btn-outline w-full"
+                  >
+                    Reset
+                  </button>
                 </div>
-              </div>
+              </form>
 
               <div className="grid gap-4 md:grid-cols-2">
                 {isLoading && (
@@ -285,7 +362,13 @@ const FindBlood = () => {
                   >
                     Register as donor
                   </Link>
-                  <button className="btn w-full bg-transparent  border-white/40 hover:bg-white hover:text-black">
+                  <button
+                    onClick={() => {
+                      setIsRequestModalOpen(true);
+                      setRequestStatus(null);
+                    }}
+                    className="btn w-full bg-transparent  border-white/40 hover:bg-white hover:text-black"
+                  >
                     Post a request
                   </button>
                 </div>
@@ -294,6 +377,103 @@ const FindBlood = () => {
           </div>
         </div>
       </section>
+
+      {isRequestModalOpen && (
+        <div className="fixed inset-0 z-[60] grid place-items-center bg-black/60 px-4">
+          <div className="w-full max-w-xl rounded-2xl bg-base-100 p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Post blood request</h2>
+              <button
+                onClick={() => setIsRequestModalOpen(false)}
+                className="btn btn-sm btn-ghost"
+                aria-label="Close request form"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleRequestSubmit} className="space-y-3">
+              <input
+                type="text"
+                placeholder="Patient name *"
+                value={requestForm.patientName}
+                onChange={handleRequestFieldChange("patientName")}
+                className="input input-bordered w-full"
+              />
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <select
+                  value={requestForm.bloodGroup}
+                  onChange={handleRequestFieldChange("bloodGroup")}
+                  className="select select-bordered w-full"
+                >
+                  <option value="">Blood group *</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+                <input
+                  type="text"
+                  placeholder="District *"
+                  value={requestForm.location}
+                  onChange={handleRequestFieldChange("location")}
+                  className="input input-bordered w-full"
+                />
+              </div>
+              <input
+                type="tel"
+                placeholder="Contact phone *"
+                value={requestForm.contactPhone}
+                onChange={handleRequestFieldChange("contactPhone")}
+                className="input input-bordered w-full"
+              />
+              <input
+                type="text"
+                placeholder="Hospital name"
+                value={requestForm.hospital}
+                onChange={handleRequestFieldChange("hospital")}
+                className="input input-bordered w-full"
+              />
+              <textarea
+                rows={3}
+                placeholder="Additional notes"
+                value={requestForm.notes}
+                onChange={handleRequestFieldChange("notes")}
+                className="textarea textarea-bordered w-full"
+              />
+
+              {requestStatus && (
+                <p
+                  className={`text-sm ${
+                    requestStatus.type === "success"
+                      ? "text-green-600"
+                      : "text-rose-600"
+                  }`}
+                >
+                  {requestStatus.message}
+                </p>
+              )}
+
+              <div className="flex justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsRequestModalOpen(false)}
+                  className="btn btn-ghost"
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn bg-black text-white">
+                  Submit request
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
