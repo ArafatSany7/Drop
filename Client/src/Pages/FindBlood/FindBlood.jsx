@@ -15,7 +15,7 @@ const emergencies = [
   {
     id: 2,
     group: "B+",
-    hospital: "Evercare",
+    hospital: "Everrcare",
     city: "Chittagong",
     time: "Need today",
   },
@@ -113,8 +113,7 @@ const FindBlood = () => {
 
     setRequestStatus({
       type: "success",
-      message:
-        "Request submitted. Our team will contact matching donors soon.",
+      message: "Request submitted. Our team will contact matching donors soon.",
     });
     setRequestForm({
       patientName: "",
