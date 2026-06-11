@@ -23,7 +23,7 @@ const emergencies = [
     id: 3,
     group: "AB-",
     hospital: "CMH",
-    city: "Sylet",
+    city: "Sylhet",
     time: "Need within 6 hrs",
   },
 ];
