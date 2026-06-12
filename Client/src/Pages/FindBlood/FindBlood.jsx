@@ -16,7 +16,7 @@ const emergencies = [
     id: 2,
     group: "B+",
     hospital: "Eveercare",
-    city: "Chittagng",
+    city: "Chittagong",
     time: "Need today",
   },
   {
