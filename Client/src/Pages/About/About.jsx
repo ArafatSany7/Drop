@@ -6,7 +6,7 @@ const stats = [
   { label: "Active donors", value: "12k+" },
   { label: "Successful matches", value: "29k" },
   { label: "Districts covered", value: "22" },
-  { label: "Average response", value: "45 min" },
+  { label: "Average response", value: "47 min" },
 ];
 
 const values = [
