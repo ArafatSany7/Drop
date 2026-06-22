@@ -13,7 +13,7 @@ const values = [
   {
     title: "Community first",
     description:
-      "People Over everything. Every process is designed to help a patient faster.",
+      "People Over Everything. Every process is designed to help a patient faster.",
     icon: Users,
   },
   {
