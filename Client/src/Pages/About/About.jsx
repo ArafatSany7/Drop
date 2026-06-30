@@ -43,7 +43,7 @@ const team = [
       "Ensures donation guidelines are followed and safety stays priority.",
   },
   {
-    name: "Tasnim Hossain",
+    name: "Tasnim Hosain",
     role: "Community Lead",
     focus: "Onboards volunteers and runs awareness campaigns in campuses.",
   },
