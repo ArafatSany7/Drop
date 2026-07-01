@@ -32,7 +32,7 @@ const values = [
 
 const team = [
   {
-    name: "Arman Rahim",
+    name: "Armaan Rahim",
     role: "Coordinator",
     focus: "Connects donors with urgent cases and manages verifications.",
   },
